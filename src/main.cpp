@@ -40,5 +40,5 @@ void loop()
   client.setClock();
   String payload = "{\"data\":[{\"dataSourceId\":\"sensorbox0\",\"deviceId\": \"swipbox0\",\"values\": [{\"unit\": \"dB\",\"value\":86}]}]}";
   Serial.printf("%d POST /data\n", client.request("POST", "/data", payload));
-  delay(5000);
+  delay(1000);
 }
