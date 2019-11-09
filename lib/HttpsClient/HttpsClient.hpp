@@ -9,7 +9,7 @@ public:
   ~HttpsClient(void);
   time_t setClock(void);
   int request(const char method[], const char endpoint[], String &payload);
-  int sendData(const char unit[], const char value[]);
+  int sendData(const char deviceId[], const char dataSourceId[], const char unit[], float value);
 
 private:
   String apiUri;

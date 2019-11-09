@@ -83,13 +83,19 @@ int HttpsClient::request(const char method[], const char endpoint[], String &pay
   return -1;
 }
 
-int HttpsClient::sendData(const char unit[], const char value[])
+int HttpsClient::sendData(const char deviceId[], const char dataSourceId[], const char unit[], float value)
 {
+  char valueString[5];
+  sprintf(valueString, "%.2f", value);
   String payload;
-  payload += "{\"data\":[{\"dataSourceId\":\"sensorbox0\",\"deviceId\": \"swipbox0\",\"values\":[{\"unit\":\"";
+  payload += "{\"data\":[{\"dataSourceId\":\"";
+  payload += dataSourceId;
+  payload += "\",\"deviceId\":\"";
+  payload += deviceId;
+  payload += "\",\"values\":[{\"unit\":\"";
   payload += unit;
   payload += "\",\"value\":";
-  payload += value;
+  payload += valueString;
   payload += "}]}]}";
   return this->request("POST", "/data", payload);
 };
