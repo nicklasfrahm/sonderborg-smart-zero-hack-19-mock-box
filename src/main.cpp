@@ -37,8 +37,12 @@ void setup()
 void loop()
 {
   // Make HTTP request.
+  String rand = String(random(30, 80));
   client.setClock();
-  String payload = "{\"data\":[{\"dataSourceId\":\"sensorbox0\",\"deviceId\": \"swipbox0\",\"values\": [{\"unit\": \"dB\",\"value\":86}]}]}";
+  String payload;
+  payload += "{\"data\":[{\"dataSourceId\":\"sensorbox0\",\"deviceId\": \"swipbox0\",\"values\": [{\"unit\": \"dB\",\"value\":";
+  payload += rand;
+  payload += "}]}]}";
   Serial.printf("%d POST /data\n", client.request("POST", "/data", payload));
   delay(1000);
 }
