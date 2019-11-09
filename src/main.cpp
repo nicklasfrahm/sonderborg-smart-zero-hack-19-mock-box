@@ -32,7 +32,7 @@ void setup()
 
   if (bme.init() != 0x61)
   {
-    Serial.println("Could not find BME");
+    Serial.println("BME: Failure");
     while (1)
     {
       // Do nothing.
