@@ -15,3 +15,7 @@ const char pass[] = "MY_PASS";
 const char apiUri[] = "MY_API_URI";
 const char apiKey[] = "MY_API_KEY";
 ```
+
+## Important information
+
+Make sure that the NodeMCU is not too far from the WiFi access point as this might lead to unexpected error codes, such as `-11`.
