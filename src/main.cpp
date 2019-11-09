@@ -39,9 +39,6 @@ void setup()
     }
   }
 
-  // Initialize random seed.
-  randomSeed(analogRead(0));
-
   // Configure WiFi connection.
   WiFi.begin(ssid, pass);
 
