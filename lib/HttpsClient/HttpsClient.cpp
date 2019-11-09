@@ -82,3 +82,14 @@ int HttpsClient::request(const char method[], const char endpoint[], String &pay
   }
   return -1;
 }
+
+int HttpsClient::sendData(const char unit[], const char value[])
+{
+  String payload;
+  payload += "{\"data\":[{\"dataSourceId\":\"sensorbox0\",\"deviceId\": \"swipbox0\",\"values\":[{\"unit\":\"";
+  payload += unit;
+  payload += "\",\"value\":";
+  payload += value;
+  payload += "}]}]}";
+  return this->request("POST", "/data", payload);
+};

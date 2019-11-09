@@ -1,7 +1,8 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
-#include "secrets.hpp"
+#include <Wire.h>
 #include "HttpsClient.hpp"
+#include "secrets.hpp"
 
 String animationChars[] = {"/", "-", "\\", "|"};
 int animationCounter = 0;
@@ -12,6 +13,9 @@ void setup()
 {
   // Initialize serial console.
   Serial.begin(115200);
+
+  // Start I2C.
+  Wire.begin();
 
   // Initialize random seed.
   randomSeed(analogRead(0));
@@ -39,10 +43,6 @@ void loop()
   // Make HTTP request.
   String rand = String(random(30, 80));
   client.setClock();
-  String payload;
-  payload += "{\"data\":[{\"dataSourceId\":\"sensorbox0\",\"deviceId\": \"swipbox0\",\"values\": [{\"unit\": \"dB\",\"value\":";
-  payload += rand;
-  payload += "}]}]}";
-  Serial.printf("%d POST /data\n", client.request("POST", "/data", payload));
+  Serial.printf("%d POST /data\n", client.sendData("dB", rand.c_str()));
   delay(1000);
 }
