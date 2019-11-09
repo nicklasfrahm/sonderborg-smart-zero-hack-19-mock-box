@@ -1,0 +1,4 @@
+# Enforce linux style line endings.
+* text eol=lf
+# Track binary files with Git LFS.
+*.cer filter=lfs diff=lfs merge=lfs -text
