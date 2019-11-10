@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <Wire.h>
+#include <math.h>
 #include "HttpsClient.hpp"
 #include "secrets.hpp"
 #include "BlueDot_BME680.h"
@@ -74,16 +75,33 @@ void setup()
   client.setClock();
   bme.writeCTRLMeas();
 
-  // Read light sensor.
-  float lightIntensity = (float)analogRead(LIGHT_SENSOR_PIN) * 100.0 / 1024.0;
-
   // Send measurements.
-  Serial.printf("%d POST /data > gas0\n", client.sendData(DEVICE_ID, "gas0", "Ohms", bme.readGas()));
-  Serial.printf("%d POST /data > temp0\n", client.sendData(DEVICE_ID, "temp0", "°C", bme.readTempC()));
-  Serial.printf("%d POST /data > hum0\n", client.sendData(DEVICE_ID, "hum0", "%", bme.readHumidity()));
-  Serial.printf("%d POST /data > pres0\n", client.sendData(DEVICE_ID, "pres0", "hPa", bme.readPressure()));
-  Serial.printf("%d POST /data > alt0\n", client.sendData(DEVICE_ID, "alt0", "m", bme.readAltitudeMeter()));
-  Serial.printf("%d POST /data > light0\n", client.sendData(DEVICE_ID, "light0", "%", lightIntensity));
+  int statusCode = 0;
+  float datapoint = 0;
+
+  datapoint = bme.readGas();
+  statusCode = client.sendData(DEVICE_ID, "gas0", "Ohms", datapoint);
+  Serial.printf("%d POST /data > gas0   > %.2f\n", statusCode, datapoint);
+
+  datapoint = bme.readTempC();
+  statusCode = client.sendData(DEVICE_ID, "temp0", "°C", datapoint);
+  Serial.printf("%d POST /data > temp0  > %.2f\n", statusCode, datapoint);
+
+  datapoint = bme.readHumidity();
+  statusCode = client.sendData(DEVICE_ID, "hum0", "%", datapoint);
+  Serial.printf("%d POST /data > hum0   > %.2f\n", statusCode, datapoint);
+
+  datapoint = bme.readPressure();
+  statusCode = client.sendData(DEVICE_ID, "pres0", "hPa", datapoint);
+  Serial.printf("%d POST /data > pres0  > %.2f\n", statusCode, datapoint);
+
+  datapoint = bme.readAltitudeMeter();
+  statusCode = client.sendData(DEVICE_ID, "alt0", "m", datapoint);
+  Serial.printf("%d POST /data > alt0   > %.2f\n", statusCode, datapoint);
+
+  datapoint = (float)map(analogRead(LIGHT_SENSOR_PIN), 0, 1024, 0, 100);
+  statusCode = client.sendData(DEVICE_ID, "light0", "%", datapoint);
+  Serial.printf("%d POST /data > light0 > %.2f\n", statusCode, datapoint);
 
   // Lock door.
   digitalWrite(LED_PIN, LOW);
