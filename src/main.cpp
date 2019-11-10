@@ -64,11 +64,11 @@ void loop()
   bme.writeCTRLMeas();
 
   // Send measurements.
+  Serial.printf("%d POST /data > gas0\n", client.sendData(deviceId, "gas0", "Ohms", bme.readGas()));
   Serial.printf("%d POST /data > temp0\n", client.sendData(deviceId, "temp0", "°C", bme.readTempC()));
   Serial.printf("%d POST /data > hum0\n", client.sendData(deviceId, "hum0", "%", bme.readHumidity()));
   Serial.printf("%d POST /data > pres0\n", client.sendData(deviceId, "pres0", "hPa", bme.readPressure()));
   Serial.printf("%d POST /data > alt0\n", client.sendData(deviceId, "alt0", "m", bme.readAltitudeMeter()));
-  Serial.printf("%d POST /data > gas0\n", client.sendData(deviceId, "gas0", "Ohms", bme.readGas()));
 
   // Don't kill my cellular data volume.
   delay(1000);
