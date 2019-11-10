@@ -22,6 +22,16 @@ void setup()
   // Initialize serial console.
   Serial.begin(115200);
 
+  // Configure I/O.
+  pinMode(LIGHT_SENSOR_PIN, INPUT);
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+  pinMode(DOOR_PIN, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
+
+  // Open door and enable LED.
+  digitalWrite(LED_PIN, HIGH);
+  digitalWrite(DOOR_PIN, HIGH);
+
   // Start and configure I2C.
   Wire.begin();
   bme.parameter.I2CAddress = 0x77;
@@ -43,12 +53,6 @@ void setup()
     }
   }
 
-  // Configure I/O.
-  pinMode(LIGHT_SENSOR_PIN, INPUT);
-  pinMode(BUTTON_PIN, INPUT_PULLUP);
-  pinMode(DOOR_PIN, OUTPUT);
-  pinMode(LED_PIN, OUTPUT);
-
   // Configure WiFi connection.
   WiFi.begin(SSID, PASS);
 
@@ -65,13 +69,6 @@ void setup()
   // Print basic info.
   Serial.print("API URI: ");
   Serial.println(API_URI);
-}
-
-void loop()
-{
-  // Open door.
-  digitalWrite(LED_PIN, HIGH);
-  digitalWrite(DOOR_PIN, HIGH);
 
   // Set clock and clear measurements.
   client.setClock();
@@ -94,3 +91,5 @@ void loop()
 
   ESP.deepSleep(0);
 }
+
+void loop() {}
